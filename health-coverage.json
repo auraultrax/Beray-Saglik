@@ -1,0 +1,13 @@
+{
+  "model": "deterministic-local-health-coverage",
+  "ai": false,
+  "external_api": false,
+  "coverage_combinations": 23030784,
+  "domains": 51,
+  "concerns": 24,
+  "modifiers": 21,
+  "life_stages": 8,
+  "timeframes": 8,
+  "info_modes": 14,
+  "note": "Combination capacity, not individually authored or medically reviewed articles."
+}

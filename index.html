@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08070a">
+<meta name="description" content="Beray Sağlık: sağlık atlası, ölçüm takibi ve şifreli özel kasa.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>Beray Sağlık</title>
+<style>
+:root{--bg:#08070a;--p1:#121016;--p2:#1a171f;--line:#2a2530;--text:#ebe5df;--mute:#8f8794;--red:#a3182e;--red2:#d4405a;--ok:#6f9d8a;
+--serif:Georgia,"Iowan Old Style","Times New Roman",serif;--sans:system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+html{height:100%;color-scheme:dark}
+body{margin:0;min-height:100%;background:radial-gradient(900px 500px at 85% -10%,rgba(163,24,46,.22),transparent 60%),var(--bg);color:var(--text);font:15px/1.6 var(--sans);
+padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--red2);outline-offset:2px}
+.hidden{display:none!important}
+.app{max-width:1040px;margin:auto;padding:22px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:34px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand img{width:40px;height:40px;border-radius:11px;filter:grayscale(.4) brightness(.85)}
+.brand b{font:600 20px var(--serif);letter-spacing:.01em}
+.btn{background:var(--p2);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+.btn:hover{border-color:var(--red)}
+.btn.red{background:var(--red);border-color:var(--red)}
+.btn.red:hover{background:var(--red2)}
+h1{font:400 clamp(34px,6vw,60px)/1.05 var(--serif);margin:0 0 14px;max-width:14em}
+.lead{color:var(--mute);max-width:36em;margin:0 0 26px}
+.find{display:flex;gap:8px;margin-bottom:22px}
+.find input{flex:1;min-width:0;background:var(--p1);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.find input:focus{border-color:var(--red);outline:0}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:22px;overflow-x:auto}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:11px 16px;color:var(--mute);white-space:nowrap}
+nav button.on{color:var(--text);border-color:var(--red2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{background:var(--p1);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--mute)}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.item{text-align:left;background:var(--p1);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+.item:hover{border-color:var(--red);background:var(--p2)}
+.item b{display:block;font-weight:600}
+.item small{color:var(--mute)}
+.count{color:var(--mute);font-size:13px;margin:0 0 10px}
+.more{display:block;margin:18px auto 0}
+.card{background:var(--p1);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.card h3{font:400 22px var(--serif);margin:0 0 6px}
+.card p{margin:0 0 12px;color:var(--mute)}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.form .full{grid-column:1/-1}
+input,textarea,select{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;width:100%}
+textarea{min-height:90px;resize:vertical}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:var(--p1);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat b{font:400 28px var(--serif);display:block}
+.stat span{color:var(--mute);font-size:13px}
+.stat svg{width:100%;height:34px;margin-top:6px}
+.rec{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.rec span{color:var(--mute);font-size:13px;display:block}
+.empty{color:var(--mute);padding:18px 0}
+.msg{font-size:13px;color:var(--red2);min-height:20px;margin-top:8px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
+.modal.show{display:flex}
+.sheet{background:var(--p1);border:1px solid var(--line);border-radius:16px;max-width:540px;width:100%;max-height:88vh;overflow:auto;padding:24px}
+.sheet h2{font:400 28px var(--serif);margin:0 0 4px}
+.sheet h4{margin:18px 0 4px;font-size:14px;color:var(--red2)}
+.sheet p{margin:0;color:var(--text)}
+.note{font-size:12.5px;color:var(--mute);border-top:1px solid var(--line);margin-top:20px;padding-top:12px}
+footer{color:var(--mute);font-size:12.5px;margin-top:40px;line-height:1.7}
+footer a{color:var(--mute)}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><img src="./icons/icon-192.png" alt=""><b>Beray Sağlık</b></div>
+  <button class="btn" id="installBtn">Uygulamayı yükle</button>
+</header>
+
+<h1>Sağlığın hakkında bildiklerin kendi cihazında kalsın.</h1>
+<p class="lead">Hastalık ve sağlık durumlarını incele, ölçümlerini kaydet, özel notlarını şifreli kasada sakla. Hiçbir veri sunucuya gitmez.</p>
+
+<div class="find"><input id="q" type="search" autocomplete="off" placeholder="Hastalık, belirti veya alan ara"></div>
+
+<nav id="tabs"></nav>
+
+<section data-mod="atlas">
+  <div class="chips" id="chips"></div>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <button class="btn more" id="more">Daha fazla göster</button>
+</section>
+
+<section data-mod="nabiz" class="hidden">
+  <div class="stats" id="stats"></div>
+  <div class="card">
+    <h3>Ölçüm ekle</h3>
+    <p>Boş bıraktığın alanlar kayda girmez.</p>
+    <form id="tf" class="form">
+      <input id="date" name="date" type="date" required aria-label="Tarih">
+      <input name="temperature" type="number" step="0.1" placeholder="Ateş (°C)" aria-label="Ateş">
+      <input name="systolic" type="number" placeholder="Büyük tansiyon" aria-label="Büyük tansiyon">
+      <input name="diastolic" type="number" placeholder="Küçük tansiyon" aria-label="Küçük tansiyon">
+      <input name="pulse" type="number" placeholder="Nabız" aria-label="Nabız">
+      <input name="sleep" type="number" step="0.1" placeholder="Uyku (saat)" aria-label="Uyku">
+      <input class="full" name="note" maxlength="200" placeholder="Not" aria-label="Not">
+      <button class="btn red full">Kaydı ekle</button>
+    </form>
+  </div>
+  <div class="card"><h3>Kayıtlar</h3><div id="recs"></div></div>
+</section>
+
+<section data-mod="kasa" class="hidden">
+  <div class="card" id="vaultGate">
+    <h3 id="vgTitle"></h3>
+    <p id="vgText"></p>
+    <form id="vf" class="form">
+      <input id="pin" type="password" class="full" autocomplete="off" minlength="6" placeholder="Parola (en az 6 karakter)" aria-label="Kasa parolası">
+      <button class="btn red full" id="vgBtn"></button>
+    </form>
+    <div class="msg" id="vgMsg" role="status"></div>
+  </div>
+  <div class="hidden" id="vaultOpen">
+    <div class="card">
+      <h3>Özel not ekle</h3>
+      <p>Notlar parolandan türetilen anahtarla bu cihazda şifrelenir.</p>
+      <form id="nf" class="form">
+        <textarea id="nt" class="full" placeholder="Rahatsızlık, ilaç, doktor notu…" required aria-label="Not"></textarea>
+        <button class="btn red">Kasaya ekle</button>
+        <button class="btn" type="button" id="lock">Kasayı kilitle</button>
+      </form>
+    </div>
+    <div class="card"><h3>Kasadaki notlar</h3><div id="vnotes"></div></div>
+  </div>
+</section>
+
+<footer>
+  Bu uygulama genel bilgi içindir; tanı koymaz, tedavi önermez. Ani, ciddi veya hızla kötüleşen belirtilerde acil sağlık hizmetine başvur.<br>
+  Kaynaklar:
+  <a href="https://icd.who.int/browse/2026-01/mms/tr" target="_blank" rel="noopener noreferrer">WHO ICD-11</a>,
+  <a href="https://medlineplus.gov/healthtopics.html" target="_blank" rel="noopener noreferrer">MedlinePlus</a>,
+  <a href="https://www.cdc.gov/stroke/signs-symptoms/index.html" target="_blank" rel="noopener noreferrer">CDC</a>
+</footer>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <h2 id="mT"></h2><small id="mA" style="color:var(--mute)"></small>
+    <h4>Hangi uzmanlık</h4><p id="mE"></p>
+    <h4>Randevuya hazırlan</h4><p>Belirtinin ne zaman başladığını, ne sıklıkla olduğunu, kullandığın ilaçları ve ailende benzer bir durum olup olmadığını yaz.</p>
+    <h4>Acil işaretler</h4><p>Ani ve şiddetli ağrı, nefes darlığı, bilinç değişikliği veya konuşma ve görme kaybı varsa beklemeden acile git.</p>
+    <div class="note">Genel eğitim kartıdır. Kişisel değerlendirme için bir sağlık profesyoneline başvur.</div>
+    <button class="btn" id="mX" style="margin-top:16px">Kapat</button>
+  </div>
+</div>
+
+<script src="./diseaseData.js"></script>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tl=s=>String(s).toLocaleLowerCase('tr-TR');
+const cat=window.BERAY_HEALTH_CATALOG||{},areas=Object.keys(cat);
+const all=areas.flatMap(a=>cat[a].map(n=>({n,a})));
+
+/* Yeni bölüm eklemek için: HTML'e <section data-mod="x"> koy, buraya {id,label} ekle. */
+const MODULES=[{id:'atlas',label:'Atlas'},{id:'nabiz',label:'Nabız'},{id:'kasa',label:'Kasa'}];
+$('#tabs').innerHTML=MODULES.map(m=>`<button data-t="${m.id}">${m.label}</button>`).join('');
+function show(id){
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===id));
+  $$('[data-mod]').forEach(s=>s.classList.toggle('hidden',s.dataset.mod!==id));
+  $('.find').classList.toggle('hidden',id!=='atlas');
+}
+$('#tabs').onclick=e=>{if(e.target.dataset.t)show(e.target.dataset.t)};
+
+/* ATLAS */
+const EXP={'Kalp ve Dolaşım':'Kardiyoloji','Damar Hastalıkları':'Kalp ve damar cerrahisi','Solunum Sistemi':'Göğüs hastalıkları','Sindirim Sistemi':'Gastroenteroloji','Karaciğer ve Safra':'Gastroenteroloji, hepatoloji','Sinir Sistemi':'Nöroloji','Ruh Sağlığı ve Davranış':'Psikiyatri','Göz ve Görme':'Göz hastalıkları','Kulak Burun Boğaz':'Kulak burun boğaz','Ağız ve Diş':'Diş hekimliği','Cilt ve Saç':'Dermatoloji','Kas Eklem ve Kemik':'Ortopedi, fizik tedavi','Böbrek ve İdrar Yolları':'Nefroloji, üroloji','Endokrin ve Metabolizma':'Endokrinoloji','Kan ve Bağışıklık':'Hematoloji, immünoloji','Enfeksiyon Hastalıkları':'Enfeksiyon hastalıkları','Kanserler':'Onkoloji','Kadın Sağlığı':'Kadın hastalıkları ve doğum','Erkek Sağlığı':'Üroloji','Çocuk ve Ergen Sağlığı':'Çocuk sağlığı','Gebelik ve Doğum':'Kadın hastalıkları ve doğum','Genetik ve Doğuştan Durumlar':'Tıbbi genetik','Üreme ve Cinsel Sağlık':'Üroloji, kadın doğum','Yaşlanma ve İleri Yaş':'Geriatri','Uyku Sağlığı':'Uyku merkezi, nöroloji','Alerji ve Bağışıklık':'Alerji ve immünoloji','Gözden Kaçmaması Gereken Belirtiler':'Acil servis'};
+let area='Tümü',lim=60;
+$('#chips').innerHTML=['Tümü',...areas].map(a=>`<button class="chip${a==='Tümü'?' on':''}" data-a="${esc(a)}">${esc(a)}</button>`).join('');
+function list(){
+  const tk=tl($('#q').value).split(/\s+/).filter(Boolean);
+  return all.filter(x=>(area==='Tümü'||x.a===area)&&tk.every(t=>tl(x.n+' '+x.a).includes(t)));
+}
+function drawAtlas(){
+  const d=list();
+  $('#count').textContent=d.length+' kayıt';
+  $('#grid').innerHTML=d.length?d.slice(0,lim).map((x,i)=>`<button class="item" data-i="${all.indexOf(x)}"><b>${esc(x.n)}</b><small>${esc(x.a)}</small></button>`).join(''):'<div class="empty">Sonuç yok. Daha kısa bir kelime dene veya alanı Tümü yap.</div>';
+  $('#more').classList.toggle('hidden',d.length<=lim);
+}
+$('#chips').onclick=e=>{const a=e.target.dataset.a;if(!a)return;area=a;lim=60;$$('.chip').forEach(c=>c.classList.toggle('on',c.dataset.a===a));drawAtlas()};
+$('#q').oninput=()=>{lim=60;show('atlas');drawAtlas()};
+$('#more').onclick=()=>{lim+=60;drawAtlas()};
+$('#grid').onclick=e=>{const b=e.target.closest('.item');if(!b)return;const x=all[b.dataset.i];
+  $('#mT').textContent=x.n;$('#mA').textContent=x.a;$('#mE').textContent=EXP[x.a]||'Aile hekimi';$('#modal').classList.add('show');$('#mX').focus()};
+$('#mX').onclick=()=>$('#modal').classList.remove('show');
+$('#modal').onclick=e=>{if(e.target.id==='modal')e.target.classList.remove('show')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#modal').classList.remove('show')});
+
+/* NABIZ */
+const TK='beray_health_tracker';
+let items=[];try{items=JSON.parse(localStorage.getItem(TK)||'[]')}catch{}
+const save=()=>{try{localStorage.setItem(TK,JSON.stringify(items))}catch{}};
+$('#date').valueAsDate=new Date();
+const nums=k=>items.map(r=>Number(r[k])).filter(v=>Number.isFinite(v)&&v>0);
+function spark(a){
+  if(a.length<2)return '';
+  const mn=Math.min(...a),mx=Math.max(...a),r=mx-mn||1;
+  const p=a.slice(-20).map((v,i,s)=>`${(i/(s.length-1)*100).toFixed(1)},${(30-(v-mn)/r*28).toFixed(1)}`).join(' ');
+  return `<svg viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><polyline points="${p}" fill="none" stroke="#d4405a" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>`;
+}
+function drawNabiz(){
+  const defs=[['temperature','Ateş','°C',1],['pulse','Nabız','',0],['sleep','Uyku','saat',1]];
+  $('#stats').innerHTML=defs.map(([k,l,u,f])=>{const a=nums(k);
+    return `<div class="stat"><span>${l}, ortalama</span><b>${a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(f)+' '+u:'—'}</b>${spark(a)}</div>`}).join('')+
+    `<div class="stat"><span>Toplam kayıt</span><b>${items.length}</b></div>`;
+  $('#recs').innerHTML=items.length?items.map((r,i)=>[r,i]).reverse().map(([r,i])=>{
+    const v=[r.temperature&&r.temperature+' °C',r.systolic&&r.diastolic&&r.systolic+'/'+r.diastolic,r.pulse&&r.pulse+' atım',r.sleep&&r.sleep+' sa'].filter(Boolean).join('  ');
+    return `<div class="rec"><div><b>${esc(r.date)}</b><span>${esc(v||'Ölçüm yok')}${r.note?' — '+esc(r.note):''}</span></div><button class="btn" data-d="${i}" aria-label="Kaydı sil">Sil</button></div>`}).join(''):'<div class="empty">Henüz kayıt yok. Yukarıdan ilk ölçümünü ekle.</div>';
+}
+$('#tf').onsubmit=e=>{e.preventDefault();items.push(Object.fromEntries(new FormData(e.target).entries()));save();e.target.reset();$('#date').valueAsDate=new Date();drawNabiz()};
+$('#recs').onclick=e=>{const i=e.target.dataset.d;if(i===undefined)return;items.splice(+i,1);save();drawNabiz()};
+
+/* KASA: PBKDF2 + AES-GCM, tamamen cihaz içi */
+const VK='beray_vault',te=new TextEncoder(),td=new TextDecoder();
+const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+let pin=null,notes=[];
+async function dk(p,salt){
+  const m=await crypto.subtle.importKey('raw',te.encode(p),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function seal(){
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await dk(pin,salt),te.encode(JSON.stringify(notes)));
+  localStorage.setItem(VK,JSON.stringify({s:b64(salt),i:b64(iv),c:b64(ct)}));
+}
+async function unseal(p){
+  const v=JSON.parse(localStorage.getItem(VK));
+  return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(v.i)},await dk(p,ub(v.s)),ub(v.c))));
+}
+function drawGate(){
+  const has=!!localStorage.getItem(VK);
+  $('#vgTitle').textContent=has?'Kasayı aç':'Kasa oluştur';
+  $('#vgText').textContent=has?'Parolanı gir. Notların yalnızca bu cihazda çözülür.':'Bir parola belirle. Unutursan notlar kurtarılamaz, çünkü parola hiçbir yerde saklanmaz.';
+  $('#vgBtn').textContent=has?'Kasayı aç':'Kasayı oluştur';
+  $('#vaultOpen').classList.toggle('hidden',pin===null);
+  $('#vaultGate').classList.toggle('hidden',pin!==null);
+}
+function drawNotes(){
+  $('#vnotes').innerHTML=notes.length?notes.map((n,i)=>[n,i]).reverse().map(([n,i])=>`<div class="rec"><div><b>${esc(n.d)}</b><span style="color:var(--text)">${esc(n.t)}</span></div><button class="btn" data-n="${i}">Sil</button></div>`).join(''):'<div class="empty">Kasa boş. İlk notunu ekle.</div>';
+}
+$('#vf').onsubmit=async e=>{
+  e.preventDefault();const p=$('#pin').value;$('#vgMsg').textContent='';
+  if(p.length<6){$('#vgMsg').textContent='Parola en az 6 karakter olmalı.';return}
+  try{
+    if(localStorage.getItem(VK)){notes=await unseal(p);pin=p}
+    else{pin=p;notes=[];await seal()}
+    $('#pin').value='';drawNotes();drawGate();
+  }catch{pin=null;$('#vgMsg').textContent='Parola yanlış veya kasa verisi okunamadı.'}
+};
+$('#nf').onsubmit=async e=>{e.preventDefault();notes.push({d:new Date().toLocaleString('tr-TR'),t:$('#nt').value.trim()});await seal();e.target.reset();drawNotes()};
+$('#vnotes').onclick=async e=>{const i=e.target.dataset.n;if(i===undefined)return;notes.splice(+i,1);await seal();drawNotes()};
+$('#lock').onclick=()=>{pin=null;notes=[];drawNotes();drawGate()};
+
+/* PWA */
+let dp=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
+$('#installBtn').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null}else alert('Tarayıcı menüsünden "Uygulamayı yükle" veya "Ana ekrana ekle" seçeneğini kullan.')};
+if(matchMedia('(display-mode: standalone)').matches)$('#installBtn').classList.add('hidden');
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+
+show('atlas');drawAtlas();drawNabiz();drawGate();
+</script>
+</body>
+</html>
